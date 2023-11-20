@@ -1,0 +1,6 @@
+customtkinter==5.2.1
+packaging = 23.2
+tkintermapview==1.29
+Pillow==10.1.0
+CTKListbox==0.10
+
