@@ -4,6 +4,7 @@ import tkintermapview
 from CTkListbox import *
 from PIL import Image
 
+#setting the window up
 window = ctk.CTk()
 window.geometry('1200x700')
 window.title('Map')
@@ -13,16 +14,19 @@ ctk.set_appearance_mode("light")
 
 my_font = ('Arial', 18)
 
+#Set the image of the icon of the mode of the map
 map_view_image = ctk.CTkImage(light_image=Image.open('map.png'), size=(20, 20))
 terrain_view_image = ctk.CTkImage(light_image=Image.open('terrain.png'), size=(20, 20))
 google_view_image = ctk.CTkImage(light_image=Image.open('google_map_image.png'), size=(20, 20))
 
+#Creating the map_view widget
 map_widget = tkintermapview.TkinterMapView(window, width=800, height=600, corner_radius=0)
 map_widget.place(relx=0.6, rely=0.5, anchor=ctk.CENTER, relwidth=0.8, relheight=1)
 map_widget.set_position(52.661110, -8.575090)
 map_widget.set_zoom(17)
 
 def take_to_address(event):
+    '''A function to take you to the location that you want to go'''
     try:
         address = address_entry.get()
         full_address = map_widget.set_address(address, marker=True)
@@ -32,12 +36,14 @@ def take_to_address(event):
         messagebox.showerror('Error', 'Invalid Location')
 
 def return_to_previous_location(event):
+    '''return to your previous location that you visited'''
     selected_index = history_frame.curselection()
     selected_item = history_frame.get(selected_index)
     coords = tkintermapview.convert_address_to_coordinates(selected_item)
     map_widget.set_position(coords[0], coords[1])
     map_widget.set_zoom(17)
 
+#An input entry to type in the address you want to visit
 address_entry = ctk.CTkEntry(window, corner_radius=0, width=180)
 address_entry.place(relx=0.5, rely=0.95)
 
@@ -49,6 +55,7 @@ class HistoryFrame(CTkListbox):
 
 
 def change_tiles_to_terrain(num):
+    '''Change the version of tiles'''
     if num == 0:
         map_widget.set_tile_server("https://a.tile.openstreetmap.org/{z}/{x}/{y}.png")
     elif num == 1:
